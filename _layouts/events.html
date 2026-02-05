@@ -1,20 +1,39 @@
 ---
 layout: default
+title: "Tournament Calendar"
 ---
 <div class="blog-page-wrapper">
-    <header class="hero-small">
-        <h1>{{ page.title }}</h1>
-        <p>{{ page.subtitle }}</p>
+    <header class="hero-small" style="background: white; color: var(--black); border-bottom: 1px solid #eee;">
+        <h1 style="font-size: 4rem;">{{ page.title }}</h1>
+        <p style="color: #666;">Upcoming Go tournaments in the North Adriatic region.</p>
     </header>
 
-    <section class="blog-container">
+    <section class="blog-container" style="max-width: 800px; margin-top: 3rem;">
         {% assign sorted_events = site.events | sort: 'date' %}
         {% for event in sorted_events %}
-        <article class="blog-post-card">
-            <span class="post-date">{{ event.location }} • {{ event.date | date: "%B %d, %Y" }}</span>
-            <h2><a href="{{ event.url | relative_url }}">{{ event.title }}</a></h2>
-            <p>{{ event.description }}</p>
-            <a href="{{ event.url | relative_url }}" class="read-link">Event Details →</a>
+        
+        <article class="event-entry {% if event.organizer != 'NAGL' %}external-event{% endif %}" 
+                 style="margin-bottom: 6rem; padding-bottom: 2rem; border-bottom: 1px solid #eee;">
+            
+            <header style="margin-bottom: 1.5rem;">
+                <div style="display: flex; justify-content: space-between; align-items: baseline;">
+                    <span class="post-date" style="color: var(--accent); font-weight: 800; letter-spacing: 1px;">
+                        {{ event.date | date: "%B %d, %Y" }} • {{ event.location }}
+                    </span>
+                    
+                    <span class="org-badge">
+                        {% if event.organizer == "NAGL" %}Official NAGL{% else %}{{ event.organizer }}{% endif %}
+                    </span>
+                </div>
+                
+                <h2 style="font-family: 'Playfair Display', serif; font-size: 3rem; margin: 15px 0 10px 0; line-height: 1.1;">
+                    {{ event.title }}
+                </h2>
+            </header>
+
+            <div class="editorial-content" style="font-size: 1.15rem; line-height: 1.8;">
+                {{ event.content }}
+            </div>
         </article>
         {% endfor %}
     </section>
